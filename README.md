@@ -42,5 +42,3 @@ Water/Vegetation Masks
 Registration (...)
 
 --------------------------------------------------------------------------
-
-Programming Language : MatLab (R2020b)

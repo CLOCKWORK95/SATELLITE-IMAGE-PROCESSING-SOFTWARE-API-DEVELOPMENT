@@ -1,7 +1,7 @@
 # SATELLITE-IMAGE-PROCESSING-SOFTWARE-API-DEVELOPMENT
 
 Author :                  Gianmarco Bencivenni - 0285847
-Association :             University of Rome Tor Vergata
+\nAssociation :             University of Rome Tor Vergata
 Faculty :                 Master's Computer and Information Engeneering
 Course :                  Geoinformazione
 Program Name :            mainapp.m

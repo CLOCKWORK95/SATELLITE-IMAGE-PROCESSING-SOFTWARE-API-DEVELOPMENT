@@ -8,7 +8,7 @@ Faculty :                 Master's Computer and Information Engeneering
 
 Course :                  Geoinformazione
 
-Program Name :            mainapp.m
+Client Name :             mainapp.m
 
 Programming language :    Matlab (R2020b)
 
@@ -16,8 +16,31 @@ Date :                    May 2021
 
 -------------------------------------------------------------------------
 
-Software application description:
+Software API package development & Thin Client command line front-end.
+The Library contains implementation of Satellite's Image Processing techniques and procedures.
+Functions are designed to fit with BSQ images from Landsat/Spot Satellite missions.
+Main concerns are:
 
-This script makes use of different functions to visualize some
+BSQ Image reading - Spectral Bands visualization 
 
-features BSQ images taken from Landsat 4-5 Thematic Mapper and Spot panchromatic sensors. 
+Color Composites (TCC/FCC)- Histogram visualization 
+
+Linear Stretching 
+
+Threshold Linear Stretching 
+
+Histogram Equalization 
+
+Subsets Selection 
+
+Spectral Profiles 
+
+NDVI 
+
+Water/Vegetation Masks 
+
+Registration (...)
+
+--------------------------------------------------------------------------
+
+Programming Language : MatLab (R2020b)

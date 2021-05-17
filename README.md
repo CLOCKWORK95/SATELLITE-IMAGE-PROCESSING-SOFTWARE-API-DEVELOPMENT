@@ -20,6 +20,4 @@ Software application description:
 
 This script makes use of different functions to visualize some
 
-features of sample BSQ images taken from Landsat 4-5 Thematic Mapper and
-
-Spot panchromatic sensors. 
+features BSQ images taken from Landsat 4-5 Thematic Mapper and Spot panchromatic sensors. 

@@ -35,10 +35,16 @@ Subsets Selection
 
 Spectral Profiles 
 
+Spectral Reflectance Curves extraction
+
+Uncalibrated Radiance Curves extraction
+
 NDVI 
 
 Water/Vegetation Masks 
 
-Registration (...)
+Registration 
+
+Change Detection
 
 --------------------------------------------------------------------------

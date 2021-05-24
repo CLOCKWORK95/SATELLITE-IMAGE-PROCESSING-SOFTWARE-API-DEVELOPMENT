@@ -15,6 +15,7 @@
 % EXERCISE 1
 % EXERCISE 2
 % EXERCISE 3
+% EXERCISE 4
 % -------------------------------------------------------------------------
 
 LANDSAT_TM = 0;
@@ -22,6 +23,11 @@ SPOT_PANCHROMATIC = 1;
 sensor = 0;
 image_path = 'subtm91.tif';
 image = imread( image_path );
+
+COLLECTION = 0;
+names = 0;
+colors = 0;
+
 
 while 1
     
@@ -43,7 +49,9 @@ while 1
     disp(' (7)  FCC LINEAR STRETCHING');
     disp(' (8)  WATER MASK FROM SUBSET');
     disp(' (9)  MANUAL WATER MASK FROM LINE DN PROFILE');
-    disp(' (10) TRUNCATED LINEAR STRETCHING (BY BAND)');
+    disp(' (10) THRESHOLD LINEAR STRETCHING (BY BAND)');
+    disp(' (11) UNCALIBRATED RADIANCE VS WAVELENGTH');
+    disp(' (12) SPECTRAL REFLECTANCE VS WAVELENGTH');
     
     operation = input( ' Insert the operation code (0 to exit): ' );
     
@@ -270,7 +278,7 @@ while 1
                 done = input(' Tap to proceed and close the current figure');
 
 
-            case 10             % TRUNCATED LINEAR STRETCHING
+            case 10             % THRESHOLD LINEAR STRETCHING
 
                 % The function below performs the linear stretching procedure, 
                 % to enhance contrast on input image at the given band.
@@ -285,13 +293,87 @@ while 1
                 end
 
                 try
-                    truncated_linear_stretching( image, band, 'yesplot', sensor, minDN, maxDN );
+                    threshold_linear_stretching( image, band, 'yesplot', sensor, minDN, maxDN );
                 catch ERR
                     disp(' Sorry, you probably typed invalid input. Please, retry.');
                 end
 
                 done = input(' Tap to proceed and close the current figure');
+               
+                
+            case 11            % UNCALIBRATED RADIANCES
 
+                % This procedure plots the uncalibrated radiance curves of 
+                % every crop specified in variable COLLECTION. If crops are
+                % already set up you can chose either to reuse the crop 
+                % collection or set up another one.
+                
+                if sensor == SPOT_PANCHROMATIC
+                    disp(' SPOT PANCHROMATIC images cannot be used for spectral signatures.')
+                    done = input(' Tap to proceed...');
+                    continue
+                end
+                
+                var = 1;
+                
+                if COLLECTION ~= 0
+                    var = input(' Do you want to use the latest crop collection? ( 0 for yes, 1 for no ): ');
+                end
+                
+                if var == 0                   
+                    uncalibrated_radiances( COLLECTION, names, colors );                 
+                    done = input(' Tap to proceed and close the current figure');
+                    continue
+                end              
+                
+                try     
+                    crops = input( ' Please, specify the number of crops: ' );
+                    [ COLLECTION, names, colors ] = collect_crops( image, sensor, crops );
+                catch ERR
+                    disp(' Sorry, you probably typed invalid input. Please, retry.');
+                end
+                              
+                uncalibrated_radiances( COLLECTION, names, colors );               
+
+                done = input(' Tap to proceed and close the current figure');
+ 
+              
+                
+            case 12            % SPECTRAL REFLECTANCE CURVES
+
+                % This procedure plots the spectral signatures of every
+                % crop specified in variable COLLECTION. If crops are
+                % already set up you can chose either to reuse the crop 
+                % collection or set up another one.
+                
+                if sensor == SPOT_PANCHROMATIC
+                    disp(' SPOT PANCHROMATIC images cannot be used for spectral signatures.')
+                    done = input(' Tap to proceed...');
+                    continue
+                end
+                
+                var = 1;
+    
+                if COLLECTION ~= 0
+                    var = input(' Do you want to use the latest crop collection? ( 0 for yes, 1 for no ): ');
+                end
+                
+                if var == 0                   
+                    spectral_reflectance_curves( COLLECTION, names, colors );               
+                    done = input(' Tap to proceed and close the current figure');
+                    continue
+                end
+                
+                try  
+                    crops = input( ' Please, specify the number of crops: ' );
+                    [ COLLECTION, names, colors ] = collect_crops( image, sensor, crops );
+                catch ERR
+                    disp(' Sorry, you probably typed invalid input. Please, retry.');
+                end
+                              
+                spectral_reflectance_curves( COLLECTION, names, colors );               
+
+                done = input(' Tap to proceed and close the current figure');
 
 
             otherwise
@@ -301,7 +383,7 @@ while 1
         end
         
     catch ERR
-        continue
+        disp(ERR);
     end
     
 end

@@ -44,7 +44,7 @@ end
 for i = 1 : 1 : counter
     for j = 1 : 1 : length( wavelengths )
         STD = stats{ i, j }( 2 );
-        stdev(i,j) = ( pi * ( GAINS(j)* STD ) ) / I(j);                  
+        stdev(i,j) = ( pi^2 * ( GAINS(j)^2* STD ) ) / I(j)^2;                  
     end
 end
 

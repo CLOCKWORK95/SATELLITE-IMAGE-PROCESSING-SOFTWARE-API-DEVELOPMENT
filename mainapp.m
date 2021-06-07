@@ -5,7 +5,7 @@
 % Course :                  Geoinformazione
 % Program Name :            mainapp.m
 % Programming language :    Matlab (R2020b)
-% Date :                    May 2021
+% Date :                    May-June 2021
 % -------------------------------------------------------------------------
 % Software application description:
 % This script makes use of different functions to visualize some
@@ -16,6 +16,7 @@
 % EXERCISE 2
 % EXERCISE 3
 % EXERCISE 4
+% EXERCISE 5
 % -------------------------------------------------------------------------
 
 LANDSAT_TM = 0;
@@ -52,6 +53,10 @@ while 1
     disp(' (10) THRESHOLD LINEAR STRETCHING (BY BAND)');
     disp(' (11) UNCALIBRATED RADIANCE VS WAVELENGTH');
     disp(' (12) SPECTRAL REFLECTANCE VS WAVELENGTH');
+    disp(' (13) DENSITY SLICING ( set colormap through operation 11 or 12 )');
+    disp(' (14) DENSITY SLICING BY NIR DN HISTOGRAM');
+    disp(' (15) NDVI MAP');
+    disp(' (16) NDVI MAPS COMPARISON');
     
     operation = input( ' Insert the operation code (0 to exit): ' );
     
@@ -373,6 +378,91 @@ while 1
                               
                 spectral_reflectance_curves( COLLECTION, names, colors );               
 
+                done = input(' Tap to proceed and close the current figure');
+                
+                
+            case 13                 % DENSITY SLICING
+                
+                % This procedure is used to apply a color map on the
+                % selected image. Before using this operation, it is
+                % necessary to compute uncalibrated radiance curves for the
+                % image, by typing operation 11 (or 12). Density slicing
+                % will be performed with settings chosen for the latter
+                % operations.
+                
+                if sensor == SPOT_PANCHROMATIC
+                    disp(' SPOT PANCHROMATIC images cannot be used for spectral signatures.')
+                    done = input(' Tap to proceed...');
+                    continue
+                end
+                
+                if COLLECTION ~= 0
+                    msg = sprintf( ' Density Slicing will be performed on %s, band 4 (NIR)', image_path );
+                    disp( msg );
+                    disp( ' Color map refers to the latest spectral signatures computed.' );
+                    disp( ' If you want to change colors and ranges, you should repeat operation 11 or 12.' );
+                    disp( ' Tap to proceed.' );
+                    density_slicing( image, COLLECTION, names, colors );
+                
+                else
+                    disp( ' Sorry, you should chose your colors and settings through operation 11 or 12.' )
+                end
+                
+                done = input(' Tap to proceed and close the current figure');
+                
+                
+                
+            case 14                 % DENSITY SLICING
+                
+                % This procedure is used to apply a color map on the
+                % selected image. 
+                
+                if sensor == SPOT_PANCHROMATIC
+                    disp(' SPOT PANCHROMATIC images cannot be used for spectral signatures.')
+                    done = input(' Tap to proceed...');
+                    continue
+                end
+                
+                density_slicing_by_histo( image );
+                
+                done = input(' Tap to proceed and close the current figure');
+          
+                
+                
+            case 15                 % NDVI MAP
+                
+                % This procedure is used to generate an NDVI map on an 
+                % input image 
+                
+                if sensor == SPOT_PANCHROMATIC
+                    disp(' SPOT PANCHROMATIC images cannot be used.')
+                    done = input(' Tap to proceed...');
+                    continue
+                end
+                
+                RS = remote_sensor( 0 );               
+                ndvi_map( image , RS, 0 );
+                
+                done = input(' Tap to proceed and close the current figure');
+                
+                
+            case 16                 % NDVI MAPS COMPARISON
+                
+                % This procedure is used to generate 2 NDVI map on  
+                % input images, and compare them on the same figure. 
+                
+                if sensor == SPOT_PANCHROMATIC
+                    disp(' SPOT PANCHROMATIC images cannot be used.')
+                    done = input(' Tap to proceed...');
+                    continue
+                end
+                
+                impath1 = input(' Please, type the 1st image''s path: ');
+                impath2 = input(' Please, type the 2nd image''s path: ');
+                
+                RS = remote_sensor( 0 );               
+                ndvi_comparison( impath1 , impath2, RS );
+                
                 done = input(' Tap to proceed and close the current figure');
 
 

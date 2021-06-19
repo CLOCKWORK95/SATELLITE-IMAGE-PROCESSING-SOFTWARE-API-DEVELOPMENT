@@ -17,6 +17,7 @@
 % EXERCISE 3
 % EXERCISE 4
 % EXERCISE 5
+% EXERCISE 6 (CHANGE DETECTION)
 % -------------------------------------------------------------------------
 
 LANDSAT_TM = 0;
@@ -57,6 +58,8 @@ while 1
     disp(' (14) DENSITY SLICING BY NIR DN HISTOGRAM');
     disp(' (15) NDVI MAP');
     disp(' (16) NDVI MAPS COMPARISON');
+    disp(' (17) CHANGE DETECTION');
+    disp(' (18) SUBSET FROM TIFF IMAGE ');
     
     operation = input( ' Insert the operation code (0 to exit): ' );
     
@@ -463,6 +466,31 @@ while 1
                 RS = remote_sensor( 0 );               
                 ndvi_comparison( impath1 , impath2, RS );
                 
+                done = input(' Tap to proceed and close the current figure');
+           
+            case 17                % CHANGE DETECTION
+                 
+                b = input(' Type 1 to specify images'' paths and json header files  |  Type 0 to use default images (Lefkas1994, Lefkas 2011):  ');
+                
+                if b == 1
+                    impath1 = input(' Please, type the 1st image''s path: ');
+                    impath2 = input(' Please, type the 2nd image''s path: ');
+                    jsonhead1 = input(' Please, type the 1st image''s json header''s path: ');
+                    jsonhead2 = input(' Please, type the 2nd image''s json header''s path: ');                 
+                    cdprocedure( impath1, impath2, jsonhead1, jsonhead2 );
+                
+                else
+                    cdprocedure( 'lefkas94.tif', 'lefkas11.tif', 'L1lefkasTM1994/lefkas94_json.json', 'L1lefkasTM2011/lefkas11_json.json' );
+                end
+                              
+                done = input(' Tap to proceed and close the current figure');
+
+            case 18                % SUBSET FROM TIFF IMAGE
+                 
+                subsetname = input( ' Please, type the name of the subset you are going to create: ' );
+                subset = sprintf( '%s.tif', subsetname );
+                subset_from_image( image, subset );
+                              
                 done = input(' Tap to proceed and close the current figure');
 
 
